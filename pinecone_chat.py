@@ -17,7 +17,7 @@ from langchain.schema import HumanMessage, SystemMessage
 from langchain.prompts import PromptTemplate
 from langchain.memory import ConversationSummaryMemory
 from langchain import hub
-from langchain_openai import ChatOpenAI
+# from langchain_openai import ChatOpenAI
 
 from domino_data.vectordb import DominoPineconeConfiguration
 from ragatouille import RAGPretrainedModel
@@ -54,14 +54,14 @@ embeddings = HuggingFaceBgeEmbeddings(model_name=embedding_model_name,
                                       model_kwargs=model_kwargs,
                                       encode_kwargs=encode_kwargs
                                      )
-# chat = ChatMlflow(
-#     target_uri=os.environ["DOMINO_MLFLOW_DEPLOYMENTS"],
-#     endpoint="chat-gpt35turbo-sm-personal",
-# )
+chat = ChatMlflow(
+    target_uri=os.environ["DOMINO_MLFLOW_DEPLOYMENTS"],
+    endpoint="chat-gpt35turbo-sm-personal",
+)
 
-chat = ChatOpenAI(temperature=0, 
-                            model='gpt-3.5-turbo-0613',
-                            openai_api_key=openai_key)
+# chat = ChatOpenAI(temperature=0, 
+#                             model='gpt-3.5-turbo-0613',
+#                             openai_api_key=openai_key)
 
 # Setup HyDE
 
@@ -137,13 +137,13 @@ if "messages" not in st.session_state.keys():
 
 # Initialize or re-nitialize conversation chain
 if "conversation" not in st.session_state.keys() or len(st.session_state.messages) <= 1:
-    # chat = ChatMlflow(
-    #     target_uri=os.environ["DOMINO_MLFLOW_DEPLOYMENTS"],
-    #     endpoint="chat-gpt35turbo-sm-personal",
-    # )
-    chat = ChatOpenAI(temperature=0, 
-                            model='gpt-3.5-turbo-0613',
-                            openai_api_key=openai_key)
+    chat = ChatMlflow(
+        target_uri=os.environ["DOMINO_MLFLOW_DEPLOYMENTS"],
+        endpoint="chat-gpt35turbo-sm-personal",
+    )
+    # chat = ChatOpenAI(temperature=0, 
+    #                         model='gpt-3.5-turbo-0613',
+    #                         openai_api_key=openai_key)
     
     st.session_state.conversation = ConversationChain(
         llm=chat,
@@ -200,16 +200,16 @@ def build_system_prompt(user_input, rerank=True, use_hyde=True):
         contexts = [contexts[index] for index in result_indices]
         urls = [list(urls)[index] for index in result_indices]  
 
-    # prompt_template = hub.pull("subirmansukhani/rakuten-qa-rag")
-    prompt_template = """ You are a virtual assistant for Rakuten and your task is to answer questions related to Rakuten which includes general information about Rakuten.
+    prompt_template = hub.pull("subirmansukhani/rakuten-qa-rag")
+#     prompt_template = """ You are a virtual assistant for Rakuten and your task is to answer questions related to Rakuten which includes general information about Rakuten.
 
-                    Do not hallucinate. If you don't find an answer, you can point user to the official website here: https://www.rakuten.com/help . 
+#                     Do not hallucinate. If you don't find an answer, you can point user to the official website here: https://www.rakuten.com/help . 
 
-                    In your response, include the following url links at the end of your response {url_links} and any other relevant URL links that you referred.
+#                     In your response, include the following url links at the end of your response {url_links} and any other relevant URL links that you referred.
 
-                    Also, at the end of your response, ask if your response was helpful". 
+#                     Also, at the end of your response, ask if your response was helpful". 
 
-                    Here is some relevant context: {context}"""
+#                     Here is some relevant context: {context}"""
     
     system_prompt = prompt_template.format( url_links=urls, context=contexts)
  
