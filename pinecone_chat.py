@@ -17,6 +17,7 @@ from langchain.schema import HumanMessage, SystemMessage
 from langchain.prompts import PromptTemplate
 from langchain.memory import ConversationSummaryMemory
 from langchain import hub
+from langchain_openai import ChatOpenAI
 
 from domino_data.vectordb import DominoPineconeConfiguration
 from ragatouille import RAGPretrainedModel
@@ -32,6 +33,7 @@ if 'process_complete' not in st.session_state:
 datasource_name = "Rakuten"
 conf = DominoPineconeConfiguration(datasource=datasource_name)
 api_key = os.environ.get("DOMINO_VECTOR_DB_METADATA", datasource_name)
+openai_key = os.environ.get("OPENAI_API_KEY")
 
 pinecone.init(
     api_key=api_key,
@@ -52,10 +54,14 @@ embeddings = HuggingFaceBgeEmbeddings(model_name=embedding_model_name,
                                       model_kwargs=model_kwargs,
                                       encode_kwargs=encode_kwargs
                                      )
-chat = ChatMlflow(
-    target_uri=os.environ["DOMINO_MLFLOW_DEPLOYMENTS"],
-    endpoint="chat-gpt35turbo-sm-personal",
-)
+# chat = ChatMlflow(
+#     target_uri=os.environ["DOMINO_MLFLOW_DEPLOYMENTS"],
+#     endpoint="chat-gpt35turbo-sm-personal",
+# )
+
+chat = ChatOpenAI(temperature=0, 
+                            model='gpt-3.5-turbo-0613',
+                            openai_api_key=openai_key)
 
 # Setup HyDE
 
@@ -131,10 +137,13 @@ if "messages" not in st.session_state.keys():
 
 # Initialize or re-nitialize conversation chain
 if "conversation" not in st.session_state.keys() or len(st.session_state.messages) <= 1:
-    chat = ChatMlflow(
-        target_uri=os.environ["DOMINO_MLFLOW_DEPLOYMENTS"],
-        endpoint="chat-gpt35turbo-sm-personal",
-    )
+    # chat = ChatMlflow(
+    #     target_uri=os.environ["DOMINO_MLFLOW_DEPLOYMENTS"],
+    #     endpoint="chat-gpt35turbo-sm-personal",
+    # )
+    chat = ChatOpenAI(temperature=0, 
+                            model='gpt-3.5-turbo-0613',
+                            openai_api_key=openai_key)
     
     st.session_state.conversation = ConversationChain(
         llm=chat,
