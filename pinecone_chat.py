@@ -54,7 +54,7 @@ embeddings = HuggingFaceBgeEmbeddings(model_name=embedding_model_name,
                                      )
 chat = ChatMlflow(
     target_uri=os.environ["DOMINO_MLFLOW_DEPLOYMENTS"],
-    endpoint="chat-gpt35t-se",
+    endpoint="chat-gpt35turbo-sm-personal",
 )
 
 # Setup HyDE
@@ -133,7 +133,7 @@ if "messages" not in st.session_state.keys():
 if "conversation" not in st.session_state.keys() or len(st.session_state.messages) <= 1:
     chat = ChatMlflow(
         target_uri=os.environ["DOMINO_MLFLOW_DEPLOYMENTS"],
-        endpoint="chat-gpt35t-se",
+        endpoint="chat-gpt35turbo-sm-personal",
     )
     
     st.session_state.conversation = ConversationChain(
