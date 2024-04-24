@@ -54,7 +54,7 @@ embeddings = HuggingFaceBgeEmbeddings(model_name=embedding_model_name,
                                      )
 chat = ChatMlflow(
     target_uri=os.environ["DOMINO_MLFLOW_DEPLOYMENTS"],
-    endpoint="chat-gpt35turbo-sm",
+    endpoint="chat-gpt35t-se",
 )
 
 # Setup HyDE
