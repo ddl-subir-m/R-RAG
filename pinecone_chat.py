@@ -200,7 +200,17 @@ def build_system_prompt(user_input, rerank=True, use_hyde=True):
         contexts = [contexts[index] for index in result_indices]
         urls = [list(urls)[index] for index in result_indices]  
 
-    prompt_template = hub.pull("subirmansukhani/rakuten-qa-rag")
+    # prompt_template = hub.pull("subirmansukhani/rakuten-qa-rag")
+    prompt_template = """ You are a virtual assistant for Rakuten and your task is to answer questions related to Rakuten which includes general information about Rakuten.
+
+                    Do not hallucinate. If you don't find an answer, you can point user to the official website here: https://www.rakuten.com/help . 
+
+                    In your response, include the following url links at the end of your response {url_links} and any other relevant URL links that you referred.
+
+                    Also, at the end of your response, ask if your response was helpful". 
+
+                    Here is some relevant context: {context}"""
+    
     system_prompt = prompt_template.format( url_links=urls, context=contexts)
  
     return system_prompt
