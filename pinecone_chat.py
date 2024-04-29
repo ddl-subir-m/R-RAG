@@ -17,7 +17,7 @@ from langchain.schema import HumanMessage, SystemMessage
 from langchain.prompts import PromptTemplate
 from langchain.memory import ConversationSummaryMemory
 from langchain import hub
-# from langchain_openai import ChatOpenAI
+from langchain_openai import ChatOpenAI
 
 from domino_data.vectordb import DominoPineconeConfiguration
 from ragatouille import RAGPretrainedModel
