@@ -6,9 +6,11 @@ def build_sidebar():
     
     popular_questions = [
             "How can I track my order status on Rakuten?",
-            "What is Rakuten's return policy for electronics?",
+            # "What is Rakuten's return policy for electronics?",
+            "What is the return policy on electronics?",
             "Can I change the shipping address after placing my order?",
-            "What payment methods are accepted on Rakuten?",
+            # "What payment methods are accepted on Rakuten?",
+            "What payment methods are accepted on the website?",
             "Is it possible to cancel my order after it has been shipped?",
     ]
  
@@ -22,7 +24,7 @@ def build_sidebar():
         ]
  
     # App sidebar
-    st.image("./assets/r-chatbot.png", width=50)
+    # st.image("./assets/r-chatbot.png", width=50)
     st.write(
         "<h1>Hi, I'm <font color='#ffcdc2'>R-Bot</font> - your personal chat assistant</h1>",
         unsafe_allow_html=True,
