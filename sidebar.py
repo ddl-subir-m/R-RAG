@@ -5,7 +5,8 @@ import random
 def build_sidebar():
     
     popular_questions = [
-            "How can I track my order status on Rakuten?",
+            # "How can I track my order status on Rakuten?",
+            "How can I track my order status",
             # "What is Rakuten's return policy for electronics?",
             "What is the return policy on electronics?",
             "Can I change the shipping address after placing my order?",
