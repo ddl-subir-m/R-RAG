@@ -200,7 +200,7 @@ def build_system_prompt(user_input, rerank=True, use_hyde=True):
         contexts = [contexts[index] for index in result_indices]
         urls = [list(urls)[index] for index in result_indices]  
 
-    prompt_template = hub.pull("subirmansukhani/rakuten-qa-rag")
+    prompt_template = hub.pull("subirmansukhani/rag-qa")
     
     system_prompt = prompt_template.format( url_links=urls, context=contexts)
  
